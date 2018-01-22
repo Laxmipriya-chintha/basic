@@ -1,0 +1,62 @@
+1.
+select substr(ADDRESS,1,instr(ADDRESS,',',1,1)-1) as STREET_NAME, 
+substr(ADDRESS,instr(ADDRESS,',',1,2)+1,instr(ADDRESS,',',1,3)-instr(ADDRESS,',',1,2)-1) as CITY_NAME FROM addr_details;
+
+2.
+select ename,sal,grade from emp,salgrade
+where sal between losal and hisal;
+
+3.
+select * from emp where sal+comm in (
+select max(sal+comm) from emp where comm is not null);
+
+4.
+select * from emp
+where sal like ('%||to_char(deptno)||%');
+
+5.select * from emp where (deptno,sal) in 
+((select deptno,max(sal) from emp group by deptno) 
+union
+(select deptno,min(sal) from emp group by deptno)) order by deptno;
+
+6.
+SELECT ((MRP_PRICE-SOLD_PRICE)/MRP_PRICE)*100 AS DISCOUNT,COUNT(*) FROM PRODUCTS
+GROUP BY ((MRP_PRICE-SOLD_PRICE)/MRP_PRICE)*100;
+
+7.
+select * from products p where rowid not in (select max(rowid) from products s where p.prod_id=s.prod_id group by s.prod_id);
+delete from products p where rowid not in (select max(rowid) from products s where p.prod_id=s.prod_id group by s.prod_id);
+
+8.
+insert into emp_tgt select * from emp where  not exists  (select * from emp_tgt where emp_tgt.empno=emp.empno);
+
+9.
+SELECT * FROM DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM EMP GROUP BY DEPTNO HAVING COUNT(*)=(SELECT MAX(COUNT(*)) FROM EMP GROUP BY DEPTNO ));
+
+11.
+select A.cnoo from (select distinct c.cno as cnoo,f.flightno from ft f,ct c where c.fno=f.flightno)A 
+group by A.cnoo 
+having count(*)=(select count(*) from ft);
+
+12.
+a.12.34
+b.12.35
+c.$1800.12
+d.*****LOYALTY METHODS*****
+
+13.
+a.6
+b.2
+c.2
+
+14.
+a.5
+b.8
+c.6
+d.6
+e.8
+f.24
+
+15.
+SELECT CASE WHEN length(TRIM(TRANSLATE(STATION_CODE,'0123456789',' '))) IS NULL 
+AND LENGTH(STATION_CODE)=2 THEN STATION_CODE ELSE '00' END AS STAT FROM STATION;
